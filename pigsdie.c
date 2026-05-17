@@ -8,6 +8,36 @@ int day = 1;
 
 void genChoice(void); // Duplicate to tell travel() that it exists
 
+void genDrugs(void){
+
+    int genCoke = 300 + (rand() % 3500);
+    printf("%-10s %d\n", "Coke:", genCoke);
+
+    int genMary = 80 + (rand() % 1200);
+    printf("%-10s %d\n", "Weed:", genMary);
+
+    int genHeron = 100 + (rand() % 2500);
+    printf("%-10s %d\n", "Heroin:", genHeron);
+
+}
+
+void genStats(void){
+    printf("======= Day %d =======\n\n", day);
+
+    printf("Health: %d\n", health);
+    printf("Money: %d\n\n", money);
+}
+
+void genCops(void){
+    srand(time(NULL));
+    int randomNumber = (rand() % 5) + 1;
+    printf("%d\n", randomNumber);
+
+    if (randomNumber == 1 ){
+        printf("Cops! Tuck your butthole\n");
+    }
+}
+
 void travel(void) {
 
     char *cities[] = {"Bronx", "Manhattan", "Queens", "Staten Island", "Brooklyn"};
@@ -24,6 +54,9 @@ void travel(void) {
     if (city_choice >= 1 && city_choice <= num_cities) {
         day = day + 1;
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
+        genCops();
+        genStats();
+        genDrugs();
         return;
     } else {
         int c; // Clear buffer
@@ -32,18 +65,7 @@ void travel(void) {
     }
 }
 
-void genDrugs(void){
 
-    int genCoke = 300 + (rand() % 3500);
-    printf("%-10s %d\n", "Coke:", genCoke);
-
-    int genMary = 80 + (rand() % 1200);
-    printf("%-10s %d\n", "Weed:", genMary);
-
-    int genHeron = 100 + (rand() % 2500);
-    printf("%-10s %d\n", "Heroin:", genHeron);
-
-}
 
 void buy(void){
 
@@ -73,7 +95,7 @@ void genChoice(void) {
         }
         else if (choice == 'q' || choice == 'Q') {
             printf("See ya!\n");
-            break;   /* exits the while(1) loop */
+            break;
         }
         else {
             printf("Invalid choice.\n");
@@ -86,19 +108,9 @@ int main (void) {
     int mary, coke, heron;
 
 
+    genCops();
 
-    srand(time(NULL));
-    int randomNumber = (rand() % 5) + 1;
-    printf("%d\n", randomNumber);
-
-    if (randomNumber == 1 ){
-        printf("Cops! Tuck your butthole\n");
-    }
-
-    printf("======= Day %d =======\n\n", day);
-
-    printf("Health: %d\n", health);
-    printf("Money: %d\n\n", money);
+    genStats();
 
     printf("WeLcOme 2 dA cItY!\n\n");
 
