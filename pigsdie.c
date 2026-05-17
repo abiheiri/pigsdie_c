@@ -8,6 +8,10 @@ int day = 1;
 int bullets = 0;
 int mary, coke, heron = 0;
 
+void clearScreen() {
+    printf("\033[2J\033[H");  // Clear screen and move cursor to top-left
+    fflush(stdout);            // Ensure it prints immediately
+}
 
 void genChoice(void); // Duplicate to tell travel() that it exists
 
@@ -34,7 +38,7 @@ void genStats(void){
 void genCops(void){
     srand(time(NULL));
     int randomNumber = (rand() % 5) + 1;
-    printf("%d\n", randomNumber);
+    printf("DEBUG COPS: %d\n", randomNumber);
 
     if (randomNumber == 1 ){
             char choice;
@@ -54,7 +58,9 @@ void genCops(void){
             else if (choice == 'g' || choice == 'G') {
                 printf ("Cops took all your stuff and held you in prison for 10 days.\n");
                 day = day + 10;
-                mary, coke, heron = 0;
+                mary = 0; 
+                coke = 0;
+                heron = 0;
                 genChoice();
             }
             else if (choice == 'q' || choice == 'Q') {
@@ -83,6 +89,7 @@ void travel(void) {
 
     if (city_choice >= 1 && city_choice <= num_cities) {
         day = day + 1;
+        clearScreen();
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
         genCops();
         genStats();
@@ -93,8 +100,8 @@ void travel(void) {
         while ((c = getchar()) != '\n' && c != EOF) { } // Clear buffer
         genChoice();
     }
-}
 
+}
 
 
 void buy(void){
@@ -107,10 +114,10 @@ void sell(void){
 
 void genChoice(void) {
 
-    if ( day >= 30 ); {
+    if ( day >= 30 ) {
         printf ("!!! GaMe OvEr !!!\n");
         printf ("Results:\n");
-        return(0);
+        exit(0);
     }
     
     char choice;
