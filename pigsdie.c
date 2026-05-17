@@ -35,6 +35,11 @@ void genStats(void){
     printf("Money: %d\n\n", money);
 }
 
+void genInventory(void){
+    printf("Your inventory is:\n");
+    printf("Weed: %d\nCoke: %d\nHeroin: %d\nBullets: %d\n", mary, coke, heron, bullets);
+}
+
 void genCops(void){
     srand(time(NULL));
     int randomNumber = (rand() % 5) + 1;
@@ -124,7 +129,7 @@ void genChoice(void) {
 
     while (1) {
         printf("\nWhat do you want to do?\n");
-        printf("[t]ravel, [b]uy, [s]ell, [q]uit\n");
+        printf("[t]ravel, [b]uy, [s]ell, [i]nventory, [q]uit\n");
 
         scanf(" %c", &choice);
 
@@ -136,6 +141,9 @@ void genChoice(void) {
         }
         else if (choice == 's' || choice == 'S') {
             sell();
+        }
+        else if (choice == 'i' || choice == 'I') {
+            genInventory();
         }
         else if (choice == 'q' || choice == 'Q') {
             printf("See ya!\n");
