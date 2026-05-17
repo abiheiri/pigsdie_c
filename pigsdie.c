@@ -146,61 +146,72 @@ void buy(void){
 
         if (choice == 'w' || choice == 'W') {
             printf("How many do you want to buy?\n");
-            response = readInt(""); // Validate its a number
-            
+            response = readInt("");
+
+            int max_afford = money / weed;
+            if (response > max_afford) {
+                printf("You can only afford %d units.\n", max_afford);
+                response = max_afford;
+            }
             if (response > pocket_space) {
-                printf("You dont have the space for %d. You only have %d pocket space.\n", response, pocket_space);
+                printf("You only have space for %d units.\n", pocket_space);
+                response = pocket_space;
             }
-            else if (weed > money){
-                printf("You dont have enough money to buy. It costs %d and you have $%d\n", weed, money);
-            }
-            else {
-                my_weed = my_weed + response;
-                pocket_used = pocket_used + response;
-                pocket_space = pocket_space - response;
-                money = money - (response * weed);
+            if (response > 0) {
+                pocket_used += response;
+                pocket_space -= response;
+                my_weed += response;
+                money -= response * weed;
                 skill += 10;
+            } else {
+                printf("Dumbass, you're broke homie!\n");
             }
         }
         else if (choice == 'c' || choice == 'C') {
-
             printf("How many do you want to buy?\n");
-            response = readInt(""); // Validate its a number
-            
-            if (response > pocket_space) {
-                printf("You dont have the space for %d. You only have %d pocket space.\n", response, pocket_space);
-            }
-            else if (weed > money){
-                printf("You dont have enough money to buy. It costs %d and you have $%d\n", coke, money);
-            }
-            else {
-                my_coke = my_coke + response;
-                pocket_used = pocket_used + response;
-                pocket_space = pocket_space - response;
-                money = money - (response * coke);
-                skill += 20;
-            }
+            response = readInt("");
 
+            int max_afford = money / coke;
+            if (response > max_afford) {
+                printf("You can only afford %d units.\n", max_afford);
+                response = max_afford;
+            }
+            if (response > pocket_space) {
+                printf("You only have space for %d units.\n", pocket_space);
+                response = pocket_space;
+            }
+            if (response > 0) {
+                pocket_used += response;
+                pocket_space -= response;
+                my_coke += response;
+                money -= response * coke;
+                skill += 20;
+            } else {
+                printf("Dumbass, you're broke homie!\n");
+            }
         }
         else if (choice == 'h' || choice == 'H') {
-
             printf("How many do you want to buy?\n");
-            response = readInt(""); // Validate its a number
-            
-            if (response > pocket_space) {
-                printf("You dont have the space for %d. You only have %d pocket space.\n", response, pocket_space);
-            }
-            else if (weed > money){
-                printf("You dont have enough money to buy. It costs %d and you have $%d\n", heroin, money);
-            }
-            else {
-                my_heroin = my_heroin + response;
-                pocket_used = pocket_used + response;
-                pocket_space = pocket_space - response;
-                money = money - (response * heroin);
-                skill += 20;
-            }
+            response = readInt("");
 
+            int max_afford = money / heroin;
+            if (response > max_afford) {
+                printf("You can only afford %d units.\n", max_afford);
+                response = max_afford;
+            }
+            if (response > pocket_space) {
+                printf("You only have space for %d units.\n", pocket_space);
+                response = pocket_space;
+            }
+            if (response > 0) {
+                pocket_used += response;
+                pocket_space -= response;
+                my_heroin += response;
+                money -= response * heroin;
+                skill += 20;
+            } else {
+                printf("Dumbass, you're broke homie!\n");
+            }
         }
         else if (choice == 'b' || choice == 'B') {
             break;
