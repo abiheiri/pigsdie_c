@@ -5,6 +5,9 @@
 int health = 100;
 int money = 100;
 int day = 1;
+int bullets = 0;
+int mary, coke, heron = 0;
+
 
 void genChoice(void); // Duplicate to tell travel() that it exists
 
@@ -34,7 +37,34 @@ void genCops(void){
     printf("%d\n", randomNumber);
 
     if (randomNumber == 1 ){
-        printf("Cops! Tuck your butthole\n");
+            char choice;
+
+        while (1) {
+            printf("Shit, its the cops! What should we do?\n");
+            printf("[r]un, [s]hoot them, [g]ive up, [q]uit\n");
+
+            scanf(" %c", &choice);
+
+            if (choice == 'r' || choice == 'R') {
+                break;
+            }
+            else if (choice == 's' || choice == 'S') {
+                break;
+            }
+            else if (choice == 'g' || choice == 'G') {
+                printf ("Cops took all your stuff and held you in prison for 10 days.\n");
+                day = day + 10;
+                mary, coke, heron = 0;
+                genChoice();
+            }
+            else if (choice == 'q' || choice == 'Q') {
+                printf("See ya!\n");
+                break;
+            }
+            else {
+                printf("Invalid choice.\n");
+            }
+        }
     }
 }
 
@@ -76,6 +106,13 @@ void sell(void){
 }
 
 void genChoice(void) {
+
+    if ( day >= 30 ); {
+        printf ("!!! GaMe OvEr !!!\n");
+        printf ("Results:\n");
+        return(0);
+    }
+    
     char choice;
 
     while (1) {
@@ -104,19 +141,13 @@ void genChoice(void) {
 }
 
 int main (void) {
-    
-    int mary, coke, heron;
-
 
     genCops();
-
     genStats();
 
     printf("WeLcOme 2 dA cItY!\n\n");
 
     genDrugs();
     genChoice();
-
-
 
 }
