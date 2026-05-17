@@ -22,7 +22,9 @@ void travel(void) {
     scanf("%d", &city_choice);
 
     if (city_choice >= 1 && city_choice <= num_cities) {
+        day = day + 1;
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
+        return;
     } else {
         int c; // Clear buffer
         while ((c = getchar()) != '\n' && c != EOF) { } // Clear buffer
@@ -51,19 +53,31 @@ void sell(void){
 
 }
 
-void genChoice(void){
+void genChoice(void) {
     char choice;
 
-    printf("What do you want to do?\n");
-    printf ("[t]ravel, [b]uy, [s]ell\n");
+    while (1) {
+        printf("\nWhat do you want to do?\n");
+        printf("[t]ravel, [b]uy, [s]ell, [q]uit\n");
 
-    scanf(" %c", &choice);
+        scanf(" %c", &choice);
 
-    if (choice == 't' || choice == 'T') {
-        travel();
-    } 
-    else if  (choice == 'b' || choice == 'B') {
-        buy();
+        if (choice == 't' || choice == 'T') {
+            travel();
+        }
+        else if (choice == 'b' || choice == 'B') {
+            buy();
+        }
+        else if (choice == 's' || choice == 'S') {
+            sell();
+        }
+        else if (choice == 'q' || choice == 'Q') {
+            printf("See ya!\n");
+            break;   /* exits the while(1) loop */
+        }
+        else {
+            printf("Invalid choice.\n");
+        }
     }
 }
 
