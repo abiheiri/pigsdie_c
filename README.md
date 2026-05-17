@@ -1,4 +1,4 @@
-# Pigs Die!
+# Pigs Die
 
 A not very faithful clone of Drug Wars.
 
