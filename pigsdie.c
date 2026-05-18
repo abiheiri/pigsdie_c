@@ -72,20 +72,63 @@ void genCops(void){
 
         while (1) {
 
-            // TODO: add X number of cops
-            printf("Shit, its the cops! What should we do?\n");
+            clearScreen();
+            int cop_count = (rand() % 4) + 1;
+            printf("Shit, -> %d <- cops are after you! What should we do?\n", cop_count);
             printf("[r]un, [s]hoot them, [g]ive up\n");
 
             scanf(" %c", &choice);
 
             if (choice == 'r' || choice == 'R') {
-                // TODO: Generate random chance
-                // TODO: user gets hit -50 health
+                int escape_chance = (rand() % 3) + 1;
+                if (escape_chance == 1){
+                    printf("You got Hit!! -50 life\n");
+                    health -= 50;
+                    skill--;
+                }
+                else {
+                    printf("You ran away... NOICE!\n");
+                    skill++;
+                }
                 break;
             }
             else if (choice == 's' || choice == 'S') {
-                // TODO: Generate random chance
-                // TODO: user hits a cop, costs X number of bullets based on chance
+                if (bullets <= 0){
+                    printf ("Shit! You dont have bullets!\nCops took all your stuff and held you in prison for 10 days.\n");
+                    day = day + 10;
+                    my_weed = 0; 
+                    my_coke = 0;
+                    my_heroin = 0;
+                    skill -= 50;
+                   if ( day >= 30 ) {
+                        clearScreen();
+                        printf ("!!! GaMe OvEr !!!\n");
+                        printf ("Results:\n");
+                        genStats();
+                        genInventory();
+                        exit(0);
+                    }
+                }
+                while (cop_count > 0 ){
+                    int bullets_wasted = (rand() % 4) + 1; // Rando bullet costs
+                    int cop_hit = (rand() % 2) + 1; // Rando cop hit or not
+
+                    bullets = bullets - bullets_wasted;
+
+                    if (cop_hit == 1){
+                        printf("You killed a cop....Yeeesh!\n");
+                        cop_count--;
+                        skill++;
+                        if (cop_count >= 1){
+                            printf("You have %d cops still remaining\n", cop_count);
+                        }
+                    }
+                    else {
+                        printf("Faaaaack! You missed a cop!\n");
+                        skill--;
+                        health--;
+                    }
+                }
                 break;
             }
             else if (choice == 'g' || choice == 'G') {
@@ -115,7 +158,7 @@ void genCops(void){
 
 void travel(void) {
 
-    if ( day >= 30 ) {
+    if ( day >= 30 || skill < 0) {
         clearScreen();
         printf ("!!! GaMe OvEr !!!\n");
         printf ("Results:\n");
@@ -355,6 +398,7 @@ void genChoice(void) {
 
 int main (void) {
 
+    clearScreen();
     printf("WeLcOme 2 dA cItY!\n\n");
     genStats();
     printf("\n========\n\n");
