@@ -10,7 +10,8 @@ int weed, coke, heroin = 0;
 int my_weed, my_coke, my_heroin = 0;
 int pocket_space = 10;
 int pocket_used = 0;
-int level, skill = 1;
+int level = 1;
+int skill = 1;
 
 void genChoice(void); // Duplicate to tell travel() that it exists
 
@@ -50,9 +51,7 @@ void genDrugs(void){
 
 void genStats(void){
     printf("======= Day %d =======\n\n", day);
-
-    printf("Health: %d\n", health);
-    printf("Money: %d\n\n", money);
+    printf("Health: %d\nMoney: %d\nSkill: %d\nYour Level: %d\n", health, money, skill, level);
 }
 
 void genInventory(void){
@@ -107,6 +106,13 @@ void travel(void) {
         exit(0);
     }
 
+    int new_level = skill / 100;
+    while (new_level > level) {
+        level++;
+        pocket_space += 100;
+        printf("Leveled up! You can now hold %d units.\n", pocket_space);
+    }
+
     char *cities[] = {"Bronx", "Manhattan", "Queens", "Staten Island", "Brooklyn"};
     int num_cities = sizeof(cities) / sizeof(cities[0]);
     int city_choice;
@@ -124,6 +130,7 @@ void travel(void) {
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
         genCops();
         genStats();
+        printf("\n========\n\n");
         genDrugs();
         return;
     } else {
@@ -185,7 +192,7 @@ void buy(void){
                 pocket_space -= response;
                 my_coke += response;
                 money -= response * coke;
-                skill += 20;
+                skill += 30;
             } else {
                 printf("Dumbass, you're broke homie!\n");
             }
@@ -212,6 +219,7 @@ void buy(void){
             } else {
                 printf("Dumbass, you're broke homie!\n");
             }
+
         }
         else if (choice == 'b' || choice == 'B') {
             break;
@@ -227,7 +235,68 @@ void buy(void){
 }
 
 void sell(void){
-    
+
+    char choice;
+    int num, result, response;
+
+    while (1) {
+        printf("\nWhat do you want to sell?\n");
+        printf("[w]eed, [c]oke, [h]erion, [l]eave\n");
+
+        scanf(" %c", &choice);
+
+        if (choice == 'w' || choice == 'W') {
+            printf("How many do you want to sell?\n");
+            response = readInt("");
+
+            if (response > my_weed) {
+                printf("You only have %d units.\n", my_weed);
+            }
+            else if (response > 0) {
+                pocket_used -= response;
+                pocket_space += response;
+                my_weed -= response;
+                money += response * weed;
+                skill += 10;
+            }
+        }
+        else if (choice == 'c' || choice == 'C') {
+            printf("How many do you want to sell?\n");
+            response = readInt("");
+
+            if (response > my_coke) {
+                printf("You only have %d units.\n", my_coke);
+            }
+            else if (response > 0) {
+                pocket_used -= response;
+                pocket_space += response;
+                my_coke -= response;
+                money += response * coke;
+                skill += 30;
+            }
+        }
+        else if (choice == 'h' || choice == 'H') {
+            printf("How many do you want to sell?\n");
+            response = readInt("");
+
+            if (response > my_heroin) {
+                printf("You only have %d units.\n", my_heroin);
+            }
+            else if (response > 0) {
+                pocket_used -= response;
+                pocket_space += response;
+                my_heroin -= response;
+                money += response * heroin;
+                skill += 20;
+            }
+        }
+        else if (choice == 'l' || choice == 'L') {
+            break;
+        }
+        else {
+            printf("Invalid choice.\n");
+        }
+    }
 }
 
 void genChoice(void) {
@@ -264,11 +333,9 @@ void genChoice(void) {
 
 int main (void) {
 
-    genCops();
-    genStats();
-
     printf("WeLcOme 2 dA cItY!\n\n");
-
+    genStats();
+    printf("\n========\n\n");
     genDrugs();
     genChoice();
 
