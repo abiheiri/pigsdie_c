@@ -63,7 +63,7 @@ void genInventory(void){
 }
 
 void checkGameOver(void) {
-    if (day >= 30 || health <= 0 || skill < 0) {
+    if (day >= 30 || health <= 0) {
         clearScreen();
         printf ("!!! GaMe OvEr !!!\n");
         printf ("Results:\n");
@@ -110,7 +110,7 @@ void genCops(void){
                     my_weed = 0; 
                     my_coke = 0;
                     my_heroin = 0;
-                    skill -= 50;
+                    skill--;
                     checkGameOver();
                     break;
                 }
@@ -121,7 +121,7 @@ void genCops(void){
                         my_weed = 0; 
                         my_coke = 0;
                         my_heroin = 0;
-                        skill -= 50;
+                        skill--;
                         checkGameOver();
                         break;
                     }
@@ -201,7 +201,20 @@ void travel(void) {
         day = day + 1;
         clearScreen();
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
-        genCops();
+        
+        int rando_thief = (rand() % 3) + 1;
+        if (rando_thief == 1){
+            printf("While traveling today, you got robbed in the subway.\n");
+            skill--;
+            my_weed -= 5 * (my_weed > 5);
+            my_coke -= (my_coke > 1);
+            my_heroin -= (my_heroin > 1);
+            bullets -= (bullets > 1);
+        }
+        else {
+            genCops();
+        }
+
         genStats();
         printf("\n========\n\n");
         genDrugs();
