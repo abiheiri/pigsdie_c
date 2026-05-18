@@ -51,7 +51,7 @@ void genDrugs(void){
 
 void genStats(void){
     printf("======= Day %d =======\n\n", day);
-    printf("Health: %d\nMoney: %d\nSkill: %d\nYour Level: %d\n", health, money, skill, level);
+    printf("Health: %d\nMoney: %d\nSkill: %d\nYour Level: %d\n", health, money, skill, level + 1);
 }
 
 void genInventory(void){
@@ -71,15 +71,21 @@ void genCops(void){
             char choice;
 
         while (1) {
+
+            // TODO: add X number of cops
             printf("Shit, its the cops! What should we do?\n");
             printf("[r]un, [s]hoot them, [g]ive up\n");
 
             scanf(" %c", &choice);
 
             if (choice == 'r' || choice == 'R') {
+                // TODO: Generate random chance
+                // TODO: user gets hit -50 health
                 break;
             }
             else if (choice == 's' || choice == 'S') {
+                // TODO: Generate random chance
+                // TODO: user hits a cop, costs X number of bullets based on chance
                 break;
             }
             else if (choice == 'g' || choice == 'G') {
@@ -90,6 +96,14 @@ void genCops(void){
                 my_coke = 0;
                 my_heroin = 0;
                 skill -= 50;
+                   if ( day >= 30 ) {
+                        clearScreen();
+                        printf ("!!! GaMe OvEr !!!\n");
+                        printf ("Results:\n");
+                        genStats();
+                        genInventory();
+                        exit(0);
+                    }
                 break;
             }
             else {
@@ -102,9 +116,11 @@ void genCops(void){
 void travel(void) {
 
     if ( day >= 30 ) {
+        clearScreen();
         printf ("!!! GaMe OvEr !!!\n");
         printf ("Results:\n");
         genStats();
+        genInventory();
         exit(0);
     }
 
