@@ -62,8 +62,18 @@ void genInventory(void){
     printf("Pocket space: %d\nPockets used: %d\nMoney: %d\nHealth: %d", pocket_space, pocket_used, money, health);
 }
 
+void checkGameOver(void) {
+    if (day >= 30 || health <= 0 || skill < 0) {
+        clearScreen();
+        printf ("!!! GaMe OvEr !!!\n");
+        printf ("Results:\n");
+        genStats();
+        genInventory();
+        exit(0);
+    }
+}
+
 void genCops(void){
-    srand(time(NULL));
     int randomNumber = (rand() % 5) + 1;
     // printf("DEBUG COPS: %d\n", randomNumber);
 
@@ -85,6 +95,7 @@ void genCops(void){
                     printf("You got Hit!! -50 life\n");
                     health -= 50;
                     skill--;
+                    checkGameOver();
                 }
                 else {
                     printf("You ran away... NOICE!\n");
@@ -100,16 +111,21 @@ void genCops(void){
                     my_coke = 0;
                     my_heroin = 0;
                     skill -= 50;
-                   if ( day >= 30 ) {
-                        clearScreen();
-                        printf ("!!! GaMe OvEr !!!\n");
-                        printf ("Results:\n");
-                        genStats();
-                        genInventory();
-                        exit(0);
-                    }
+                    checkGameOver();
+                    break;
                 }
                 while (cop_count > 0 ){
+                    if (bullets <= 0) {
+                        printf ("Shit! You ran out of bullets!\nCops took all your stuff and held you in prison for 10 days.\n");
+                        day = day + 10;
+                        my_weed = 0; 
+                        my_coke = 0;
+                        my_heroin = 0;
+                        skill -= 50;
+                        checkGameOver();
+                        break;
+                    }
+
                     int bullets_wasted = (rand() % 4) + 1; // Rando bullet costs
                     int cop_hit = (rand() % 2) + 1; // Rando cop hit or not
 
@@ -127,6 +143,9 @@ void genCops(void){
                         printf("Faaaaack! You missed a cop!\n");
                         skill--;
                         health--;
+                        if (health <= 0) {
+                            checkGameOver();
+                        }
                     }
                 }
                 break;
@@ -139,14 +158,7 @@ void genCops(void){
                 my_coke = 0;
                 my_heroin = 0;
                 skill -= 50;
-                   if ( day >= 30 ) {
-                        clearScreen();
-                        printf ("!!! GaMe OvEr !!!\n");
-                        printf ("Results:\n");
-                        genStats();
-                        genInventory();
-                        exit(0);
-                    }
+                checkGameOver();
                 break;
             }
             else {
@@ -398,6 +410,7 @@ void genChoice(void) {
 
 int main (void) {
 
+    srand(time(NULL)); // Rando generator for services that leverage it later.
     clearScreen();
     printf("WeLcOme 2 dA cItY!\n\n");
     genStats();
