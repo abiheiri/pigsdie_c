@@ -63,7 +63,7 @@ void genInventory(void){
 }
 
 void checkGameOver(void) {
-    if (day >= 30 || health <= 0) {
+    if (day >= 30 || health <= 0 || skill < 0) {
         clearScreen();
         printf ("!!! GaMe OvEr !!!\n");
         printf ("Results:\n");
@@ -170,14 +170,7 @@ void genCops(void){
 
 void travel(void) {
 
-    if ( day >= 30 || skill < 0) {
-        clearScreen();
-        printf ("!!! GaMe OvEr !!!\n");
-        printf ("Results:\n");
-        genStats();
-        genInventory();
-        exit(0);
-    }
+    checkGameOver();
 
     int new_level = skill / 100;
     while (new_level > level) {
