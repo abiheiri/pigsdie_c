@@ -6,11 +6,11 @@ int health = 100;
 int money = 1000;
 int day = 1;
 int bullets = 0;
-int weed, coke, heroin = 0;
+int weed, coke, heroin;
 int my_weed, my_coke, my_heroin = 0;
 int pocket_space = 10;
 int pocket_used = 0;
-int level = 1;
+int level = 0;
 int skill = 1;
 
 void genChoice(void); // Duplicate to tell travel() that it exists
@@ -65,7 +65,7 @@ void genInventory(void){
 void genCops(void){
     srand(time(NULL));
     int randomNumber = (rand() % 5) + 1;
-    printf("DEBUG COPS: %d\n", randomNumber);
+    // printf("DEBUG COPS: %d\n", randomNumber);
 
     if (randomNumber == 1 ){
             char choice;
@@ -83,11 +83,13 @@ void genCops(void){
                 break;
             }
             else if (choice == 'g' || choice == 'G') {
+                clearScreen();
                 printf ("Cops took all your stuff and held you in prison for 10 days.\n");
                 day = day + 10;
                 my_weed = 0; 
                 my_coke = 0;
                 my_heroin = 0;
+                skill -= 50;
                 break;
             }
             else {
@@ -147,15 +149,17 @@ void buy(void){
 
     while (1) {
         printf("\nWhat do you want to buy?\n");
-        printf("[w]eed, [c]oke, [h]erion, [b]ullets, [l]eave\n");
+        printf("[w]eed, [c]oke, [h]eroin, [b]ullets, [l]eave\n");
 
         scanf(" %c", &choice);
 
         if (choice == 'w' || choice == 'W') {
-            printf("How many do you want to buy?\n");
+            
+            int max_afford = money / weed;
+            
+            printf("How many do you want to buy? (Max you can afford is %d)\n", max_afford);
             response = readInt("");
 
-            int max_afford = money / weed;
             if (response > max_afford) {
                 printf("You can only afford %d units.\n", max_afford);
                 response = max_afford;
@@ -175,10 +179,11 @@ void buy(void){
             }
         }
         else if (choice == 'c' || choice == 'C') {
-            printf("How many do you want to buy?\n");
+            int max_afford = money / coke;
+
+            printf("How many do you want to buy? (Max you can afford is %d)\n", max_afford);
             response = readInt("");
 
-            int max_afford = money / coke;
             if (response > max_afford) {
                 printf("You can only afford %d units.\n", max_afford);
                 response = max_afford;
@@ -198,10 +203,11 @@ void buy(void){
             }
         }
         else if (choice == 'h' || choice == 'H') {
-            printf("How many do you want to buy?\n");
+            int max_afford = money / heroin;
+            
+            printf("How many do you want to buy? (Max you can afford is %d)\n", max_afford);
             response = readInt("");
 
-            int max_afford = money / heroin;
             if (response > max_afford) {
                 printf("You can only afford %d units.\n", max_afford);
                 response = max_afford;
@@ -241,12 +247,12 @@ void sell(void){
 
     while (1) {
         printf("\nWhat do you want to sell?\n");
-        printf("[w]eed, [c]oke, [h]erion, [l]eave\n");
+        printf("[w]eed, [c]oke, [h]eroin, [l]eave\n");
 
         scanf(" %c", &choice);
 
         if (choice == 'w' || choice == 'W') {
-            printf("How many do you want to sell?\n");
+            printf("How many do you want to sell? (You have %d units)\n", my_weed);
             response = readInt("");
 
             if (response > my_weed) {
@@ -261,7 +267,7 @@ void sell(void){
             }
         }
         else if (choice == 'c' || choice == 'C') {
-            printf("How many do you want to sell?\n");
+            printf("How many do you want to sell? (You have %d units)\n", my_coke);
             response = readInt("");
 
             if (response > my_coke) {
@@ -276,7 +282,7 @@ void sell(void){
             }
         }
         else if (choice == 'h' || choice == 'H') {
-            printf("How many do you want to sell?\n");
+            printf("How many do you want to sell? (You have %d units)\n", my_heroin);
             response = readInt("");
 
             if (response > my_heroin) {
