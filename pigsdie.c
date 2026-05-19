@@ -59,13 +59,22 @@ void genInventory(void){
     printf("====\n");
     printf("Weed: %d\nCoke: %d\nHeroin: %d\nBullets: %d\n", my_weed, my_coke, my_heroin, bullets);
     printf("====\n");
-    printf("Pocket space: %d\nPockets used: %d\nMoney: %d\nHealth: %d", pocket_space, pocket_used, money, health);
+    printf("Pocket space: %d\nPockets used: %d\nMoney: %d\nHealth: %d\n", pocket_space, pocket_used, money, health);
 }
 
 void checkGameOver(void) {
     if (day >= 30 || health <= 0 || skill < 0) {
         clearScreen();
         printf ("!!! GaMe OvEr !!!\n");
+        if (health <= 0) {
+            printf("You died like a bitch.\n");
+        }
+        else if (skill < 0) {
+            printf("Your skill dropped too low for the streets to trust you.\n");
+        }
+        else if (day >= 30) {
+            printf("Time's up! 30 days have passed.\n");
+        }
         printf ("Results:\n");
         genStats();
         genInventory();
@@ -217,7 +226,7 @@ void travel(void) {
         
         int rando_thief = (rand() % 4) + 1;
         if (rando_thief == 1){
-            printf("While traveling today, you got robbed in the subway.\n");
+            printf("!!!! While traveling today, you got robbed in the subway !!!!\n");
             skill--;
             my_weed -= 5 * (my_weed > 5);
             my_coke -= (my_coke > 1);
