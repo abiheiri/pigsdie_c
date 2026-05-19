@@ -147,6 +147,26 @@ void genCops(void){
                             checkGameOver();
                         }
                     }
+
+                    if (cop_count > 0 && bullets > 0) {
+                        printf("[s]hoot again or [r]un?\n");
+                        char shoot_choice;
+                        scanf(" %c", &shoot_choice);
+                        if (shoot_choice == 'r' || shoot_choice == 'R') {
+                            int escape_chance = (rand() % 3) + 1;
+                            if (escape_chance == 1){
+                                printf("You got Hit!! -50 life\n");
+                                health -= 50;
+                                skill--;
+                                checkGameOver();
+                            }
+                            else {
+                                printf("You ran away... NOICE!\n");
+                                skill++;
+                            }
+                            break;
+                        }
+                    }
                 }
                 break;
             }
@@ -172,7 +192,7 @@ void travel(void) {
 
     checkGameOver();
 
-    int new_level = skill / 100;
+    int new_level = skill / 100; // int division; skill = 150 → new_level = 1
     while (new_level > level) {
         level++;
         pocket_space += 100;
@@ -195,7 +215,7 @@ void travel(void) {
         clearScreen();
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
         
-        int rando_thief = (rand() % 3) + 1;
+        int rando_thief = (rand() % 4) + 1;
         if (rando_thief == 1){
             printf("While traveling today, you got robbed in the subway.\n");
             skill--;
