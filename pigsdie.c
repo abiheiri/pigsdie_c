@@ -305,7 +305,37 @@ void buy(void){
 
         }
         else if (choice == 'b' || choice == 'B') {
-            break;
+
+            if (money > 0){
+                int bullet_price = (rand() % 50) + 1;
+
+                printf("Todays prices for bullets are $%d. Do you still want to purchase? <y/n>\n", bullet_price);
+                char buyBullets;
+                scanf(" %c", &buyBullets);
+                if (buyBullets == 'y' || buyBullets == 'Y') {
+                    printf("How many do you want to buy?");
+                    response = readInt("");
+
+                    if (response > pocket_space) {
+                        printf("You only have space for %d units.\n", pocket_space);
+                        response = pocket_space;
+                    }
+                    
+                    if (money >= response * bullet_price && response > 0) {
+                        money -= response * bullet_price;
+                        bullets += response;
+                        pocket_used += response;
+                        pocket_space -= response;
+                        printf("You bought %d bullets.\n", response);
+                    }
+                    else if (response > 0) {
+                        printf("Nah bro, You dont got that much money to buy $%d\n", response * bullet_price);
+                    }
+                }
+            }
+            else {
+                printf("You dont have the money to buy bullets. You have $%d\n", money);
+            }
         }
         else if (choice == 'l' || choice == 'l') {
             printf("See ya!\n");
