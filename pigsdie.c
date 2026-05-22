@@ -7,7 +7,7 @@ int money = 1000;
 int day = 1;
 int bullets = 0;
 int weed, coke, heroin;
-int my_weed, my_coke, my_heroin = 0;
+int my_weed = 0, my_coke = 0, my_heroin = 0;
 int pocket_space = 10;
 int pocket_used = 0;
 int level = 0;
