@@ -251,7 +251,7 @@ city_choice = read_int("");
 
 void buy(void){
     char choice;
-    int num, result, response;
+    int response;
 
     while (1) {
         printf("\nWhat do you want to buy?\n");
@@ -379,7 +379,7 @@ void buy(void){
 void sell(void){
 
     char choice;
-    int num, result, response;
+    int response;
 
     while (1) {
         printf("\nWhat do you want to sell?\n");
