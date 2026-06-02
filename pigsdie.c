@@ -13,14 +13,14 @@ int pocket_used = 0;
 int level = 0;
 int skill = 1;
 
-void genChoice(void); // Duplicate to tell travel() that it exists
+void gen_choice(void); // Duplicate to tell travel() that it exists
 
-void clearScreen() {
+void clear_screen() {
     printf("\033[2J\033[H");  // Clear screen and move cursor to top-left
     fflush(stdout);            // Ensure it prints immediately
 }
 
-int readInt(const char *prompt) { // We validate the user is passing an int
+int read_int(const char *prompt) { // We validate the user is passing an int
     int value;
     int result;
     while (1) {
@@ -36,7 +36,7 @@ int readInt(const char *prompt) { // We validate the user is passing an int
     }
 }
 
-void genDrugs(void){
+void gen_drugs(void){
 
     coke = 300 + (rand() % 3500);
     printf("%-10s %d\n", "Coke:", coke);
@@ -49,12 +49,12 @@ void genDrugs(void){
 
 }
 
-void genStats(void){
+void gen_stats(void){
     printf("======= Day %d =======\n\n", day);
     printf("Health: %d\nMoney: %d\nSkill: %d\nYour Level: %d\n", health, money, skill, level + 1);
 }
 
-void genInventory(void){
+void gen_inventory(void){
     printf("Your inventory is:\n");
     printf("====\n");
     printf("Weed: %d\nCoke: %d\nHeroin: %d\nBullets: %d\n", my_weed, my_coke, my_heroin, bullets);
@@ -62,9 +62,9 @@ void genInventory(void){
     printf("Pocket space: %d\nPockets used: %d\nMoney: %d\nHealth: %d\n", pocket_space, pocket_used, money, health);
 }
 
-void checkGameOver(void) {
+void check_game_over(void) {
     if (day >= 30 || health <= 0 || skill < 0) {
-        clearScreen();
+        clear_screen();
         printf ("!!! GaMe OvEr !!!\n");
         if (health <= 0) {
             printf("You died like a bitch.\n");
@@ -76,13 +76,13 @@ void checkGameOver(void) {
             printf("Time's up! 30 days have passed.\n");
         }
         printf ("Results:\n");
-        genStats();
-        genInventory();
+        gen_stats();
+        gen_inventory();
         exit(0);
     }
 }
 
-void genCops(void){
+void gen_cops(void){
     int randomNumber = (rand() % 5) + 1;
     // printf("DEBUG COPS: %d\n", randomNumber);
 
@@ -91,7 +91,7 @@ void genCops(void){
 
         while (1) {
 
-            clearScreen();
+            clear_screen();
             int cop_count = (rand() % 4) + 1;
             printf("Shit, -> %d <- cops are after you! What should we do?\n", cop_count);
             printf("[r]un, [s]hoot them, [g]ive up\n");
@@ -104,7 +104,7 @@ void genCops(void){
                     printf("You got Hit!! -50 life\n");
                     health -= 50;
                     skill--;
-                    checkGameOver();
+                    check_game_over();
                 }
                 else {
                     printf("You ran away... NOICE!\n");
@@ -120,7 +120,7 @@ void genCops(void){
                     my_coke = 0;
                     my_heroin = 0;
                     skill--;
-                    checkGameOver();
+                    check_game_over();
                     break;
                 }
                 while (cop_count > 0 ){
@@ -131,7 +131,7 @@ void genCops(void){
                         my_coke = 0;
                         my_heroin = 0;
                         skill--;
-                        checkGameOver();
+                        check_game_over();
                         break;
                     }
 
@@ -153,7 +153,7 @@ void genCops(void){
                         skill--;
                         health--;
                         if (health <= 0) {
-                            checkGameOver();
+                            check_game_over();
                         }
                     }
 
@@ -167,7 +167,7 @@ void genCops(void){
                                 printf("You got Hit!! -50 life\n");
                                 health -= 50;
                                 skill--;
-                                checkGameOver();
+                                check_game_over();
                             }
                             else {
                                 printf("You ran away... NOICE!\n");
@@ -180,14 +180,14 @@ void genCops(void){
                 break;
             }
             else if (choice == 'g' || choice == 'G') {
-                clearScreen();
+                clear_screen();
                 printf ("Cops took all your stuff and held you in prison for 10 days.\n");
                 day = day + 10;
                 my_weed = 0; 
                 my_coke = 0;
                 my_heroin = 0;
                 skill -= 50;
-                checkGameOver();
+                check_game_over();
                 break;
             }
             else {
@@ -199,7 +199,7 @@ void genCops(void){
 
 void travel(void) {
 
-    checkGameOver();
+    check_game_over();
 
     int new_level = skill / 100; // int division; skill = 150 → new_level = 1
     while (new_level > level) {
@@ -217,11 +217,11 @@ void travel(void) {
         printf("  %d. %s\n", i + 1, cities[i]);
     }
     printf("\nSelect (1-%d): ", num_cities);
-    city_choice = readInt("");
+city_choice = read_int("");
 
     if (city_choice >= 1 && city_choice <= num_cities) {
         day = day + 1;
-        clearScreen();
+        clear_screen();
         printf("\nYou traveled to %s.\n", cities[city_choice - 1]);
         
         int rando_thief = (rand() % 4) + 1;
@@ -234,17 +234,17 @@ void travel(void) {
             bullets -= (bullets > 1);
         }
         else {
-            genCops();
+            gen_cops();
         }
 
-        genStats();
+        gen_stats();
         printf("\n========\n\n");
-        genDrugs();
+        gen_drugs();
         return;
     } else {
         int c; // Clear buffer
         while ((c = getchar()) != '\n' && c != EOF) { } // Clear buffer
-        genChoice();
+        gen_choice();
     }
 
 }
@@ -264,7 +264,7 @@ void buy(void){
             int max_afford = money / weed;
             
             printf("How many do you want to buy? (Max you can afford is %d)\n", max_afford);
-            response = readInt("");
+            response = read_int("");
 
             if (response > max_afford) {
                 printf("You can only afford %d units.\n", max_afford);
@@ -288,7 +288,7 @@ void buy(void){
             int max_afford = money / coke;
 
             printf("How many do you want to buy? (Max you can afford is %d)\n", max_afford);
-            response = readInt("");
+            response = read_int("");
 
             if (response > max_afford) {
                 printf("You can only afford %d units.\n", max_afford);
@@ -312,7 +312,7 @@ void buy(void){
             int max_afford = money / heroin;
             
             printf("How many do you want to buy? (Max you can afford is %d)\n", max_afford);
-            response = readInt("");
+            response = read_int("");
 
             if (response > max_afford) {
                 printf("You can only afford %d units.\n", max_afford);
@@ -343,7 +343,7 @@ void buy(void){
                 scanf(" %c", &buyBullets);
                 if (buyBullets == 'y' || buyBullets == 'Y') {
                     printf("How many do you want to buy?");
-                    response = readInt("");
+                    response = read_int("");
 
                     if (response > pocket_space) {
                         printf("You only have space for %d units.\n", pocket_space);
@@ -389,7 +389,7 @@ void sell(void){
 
         if (choice == 'w' || choice == 'W') {
             printf("How many do you want to sell? (You have %d units)\n", my_weed);
-            response = readInt("");
+            response = read_int("");
 
             if (response > my_weed) {
                 printf("You only have %d units.\n", my_weed);
@@ -404,7 +404,7 @@ void sell(void){
         }
         else if (choice == 'c' || choice == 'C') {
             printf("How many do you want to sell? (You have %d units)\n", my_coke);
-            response = readInt("");
+            response = read_int("");
 
             if (response > my_coke) {
                 printf("You only have %d units.\n", my_coke);
@@ -419,7 +419,7 @@ void sell(void){
         }
         else if (choice == 'h' || choice == 'H') {
             printf("How many do you want to sell? (You have %d units)\n", my_heroin);
-            response = readInt("");
+            response = read_int("");
 
             if (response > my_heroin) {
                 printf("You only have %d units.\n", my_heroin);
@@ -441,7 +441,7 @@ void sell(void){
     }
 }
 
-void genChoice(void) {
+void gen_choice(void) {
     
     char choice;
 
@@ -461,7 +461,7 @@ void genChoice(void) {
             sell();
         }
         else if (choice == 'i' || choice == 'I') {
-            genInventory();
+            gen_inventory();
         }
         else if (choice == 'q' || choice == 'Q') {
             printf("See ya!\n");
@@ -476,11 +476,11 @@ void genChoice(void) {
 int main (void) {
 
     srand(time(NULL)); // Rando generator for services that leverage it later.
-    clearScreen();
+    clear_screen();
     printf("WeLcOme 2 dA cItY!\n\n");
-    genStats();
+    gen_stats();
     printf("\n========\n\n");
-    genDrugs();
-    genChoice();
+    gen_drugs();
+    gen_choice();
 
 }
