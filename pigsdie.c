@@ -1,3 +1,10 @@
+/*
+ * pigsdie.c — A not very faithful clone of Drug Wars.
+ *
+ * Author:  AL Biheiri <al@forgottheaddress.com>
+ * Version: v1.0.1
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
